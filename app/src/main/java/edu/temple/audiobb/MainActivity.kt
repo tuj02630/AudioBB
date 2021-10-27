@@ -2,8 +2,9 @@ package edu.temple.audiobb
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.fragment.app.FragmentActivity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : FragmentActivity(), BookListFragment.BookListFragmentInterface {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -35,5 +36,13 @@ class MainActivity : AppCompatActivity() {
 
 
 
+    }
+    override fun itemClicked(book : Book)
+    {
+        getSupportFragmentManager()
+            .beginTransaction()
+            .replace(R.id.book_det_containerview, BookDetailsFragment.newInstance(book))
+            .addToBackStack(null)
+            .commit();
     }
 }

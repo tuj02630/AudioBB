@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,11 +26,21 @@ class BookDetailsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            title = it.getString(ARG_PARAM1)
-            author = it.getString(ARG_PARAM2)
+            var temp = it.getParcelable<Book>(ARG_PARAM1)
+            if (temp != null) {
+                title = temp.t
+                author = temp.a
+            };
+
         }
     }
-
+    override fun onStart() {
+        super.onStart()
+        if(title != null && author != null) {
+            view?.findViewById<TextView>(R.id.title_disp)?.setText(title);
+            view?.findViewById<TextView>(R.id.author_disp)?.setText(author);
+        }
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

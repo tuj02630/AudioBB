@@ -48,7 +48,7 @@ class BookListFragment : Fragment() {
         super.onStart()
         val activity = activity as Context;
         recyclerView = requireView().findViewById(R.id.book_list_recyclerview);
-        recyclerView.layoutManager = GridLayoutManager(activity, 3);
+        recyclerView.layoutManager = GridLayoutManager(activity, 1);
         var adptr = BookListAdapter(activity, bl)
         recyclerView.adapter = adptr;
         adptr.onItemClick = { imageObject ->

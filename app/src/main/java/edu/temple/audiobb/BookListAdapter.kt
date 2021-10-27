@@ -22,7 +22,7 @@ class BookListAdapter (_context : Context, _booklist : BookList) : RecyclerView.
     }
 
     override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+        return booklist.size()
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
