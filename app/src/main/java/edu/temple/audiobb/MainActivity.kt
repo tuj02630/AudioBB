@@ -21,7 +21,17 @@ class MainActivity : AppCompatActivity() {
         bl.add(Book("Among Us Nuggets with no Sussy Sauce!", "Slothy People"));
         bl.add(Book("Bingus Bingus", "Bingus"));
 
+        if (savedInstanceState == null) {
+            supportFragmentManager
+                .beginTransaction()
+                .add(R.id.book_det_containerview, BookDetailsFragment.newInstance(bl.get(0)))
+                .commit()
 
+            supportFragmentManager
+                .beginTransaction()
+                .add(R.id.book_list_containerview, BookListFragment.newInstance(bl))
+                .commit()
+        }
 
 
 
