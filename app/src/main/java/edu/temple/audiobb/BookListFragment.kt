@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -23,9 +25,10 @@ class BookListFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var bl : BookList = BookList();
     private lateinit var recyclerView: RecyclerView;
-
+    lateinit var svm : SharedViewModel;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setRetainInstance(true);
         arguments?.let {
             var temp = it.getParcelableArrayList<Book>(ARG_PARAM1)
             if (temp != null) {
@@ -41,9 +44,13 @@ class BookListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_book_list, container, false)
+        val v = inflater.inflate(R.layout.fragment_book_list, container, false)
+        return v;
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+    }
     override fun onStart() {
         super.onStart()
         val activity = activity as Context;
@@ -51,8 +58,11 @@ class BookListFragment : Fragment() {
         recyclerView.layoutManager = GridLayoutManager(activity, 1);
         var adptr = BookListAdapter(activity, bl)
         recyclerView.adapter = adptr;
-        adptr.onItemClick = { imageObject ->
-            (activity as BookListFragmentInterface).itemClicked(imageObject)
+        adptr.onItemClick = { book ->
+            (activity as BookListFragmentInterface).itemClicked(book)
+            svm = ViewModelProvider(activity as ViewModelStoreOwner).get(SharedViewModel::class.java)
+            svm.setBook(book)
+
         }
     }
 

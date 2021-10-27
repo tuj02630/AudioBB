@@ -25,6 +25,7 @@ class BookDetailsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setRetainInstance(true);
         arguments?.let {
             var temp = it.getParcelable<Book>(ARG_PARAM1)
             if (temp != null) {
@@ -47,6 +48,12 @@ class BookDetailsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_book_details, container, false)
+    }
+
+    fun setRes(book : Book)
+    {
+        view?.findViewById<TextView>(R.id.title_disp)?.setText(book.t)
+        view?.findViewById<TextView>(R.id.author_disp)?.setText(book.a)
     }
 
     companion object {

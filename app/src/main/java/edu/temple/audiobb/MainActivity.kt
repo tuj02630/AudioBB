@@ -2,9 +2,17 @@ package edu.temple.audiobb
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModelProvider
+
+
+
+
 
 class MainActivity : FragmentActivity(), BookListFragment.BookListFragmentInterface {
+    var tempbook = Book ("", "")
+    var model: SharedViewModel = SharedViewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -22,10 +30,14 @@ class MainActivity : FragmentActivity(), BookListFragment.BookListFragmentInterf
         bl.add(Book("Among Us Nuggets with no Sussy Sauce!", "Slothy People"));
         bl.add(Book("Bingus Bingus", "Bingus"));
 
+        model = ViewModelProvider(this).get(SharedViewModel::class.java)
+
+        model.setBook(tempbook)
+
         if (savedInstanceState == null) {
             supportFragmentManager
                 .beginTransaction()
-                .add(R.id.book_det_containerview, BookDetailsFragment.newInstance(bl.get(0)))
+                .add(R.id.book_det_containerview, BookDetailsFragment.newInstance(model.getBook().value as Book))
                 .commit()
 
             supportFragmentManager
@@ -34,15 +46,10 @@ class MainActivity : FragmentActivity(), BookListFragment.BookListFragmentInterf
                 .commit()
         }
 
-
-
     }
     override fun itemClicked(book : Book)
     {
-        getSupportFragmentManager()
-            .beginTransaction()
-            .replace(R.id.book_det_containerview, BookDetailsFragment.newInstance(book))
-            .addToBackStack(null)
-            .commit();
+        findViewById<TextView>(R.id.title_disp).setText(model.getBook().value?.t)
+        findViewById<TextView>(R.id.author_disp).setText(model.getBook().value?.a)
     }
 }
